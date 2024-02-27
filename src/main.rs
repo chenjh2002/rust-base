@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 use crate::garden::vegetables::Asparagus;
+use std::fs::File;
+use std::io::ErrorKind;
 // use rand::Rng;
 // use std::{self, cmp::Ordering, io};
 // use std::collections::*;
@@ -110,40 +112,56 @@ fn main() {
     //     println!("{b}");
     // } // 208 151 208 180
 
-    let mut scores = HashMap::new();
+    // let mut scores = HashMap::new();
+    //
+    // scores.insert(String::from("Blue"), 10);
+    // scores.insert(String::from("Yellow"), 50);
+    //
+    // let team_name = String::from("Blue");
+    // // Optional skilled, get return a Option object
+    // let score = scores.get(&team_name).copied().unwrap_or(0);
+    //
+    // for (key, value) in &scores {
+    //     println!("{key}: {value}");
+    // }
+    //
+    // let field_name = String::from("Favorite color");
+    // let field_value = String::from("Blue");
+    //
+    // let mut map = HashMap::new();
+    // map.insert(&field_name, &field_value);
+    //
+    // // Overwrite and insert
+    // // Option-like operation
+    // scores.entry(String::from("Yellow")).or_insert(50);
+    // scores.entry(String::from("Blue")).or_insert(50);
+    //
+    // println!("{:?}", scores);
+    //
+    // let text = "hello world wonderful world";
+    //
+    // let mut map = HashMap::new();
+    //
+    // for word in text.split_whitespace() {
+    //     let count = map.entry(word).or_insert(0);
+    //     *count += 1;
+    // }
+    //
+    // println!("{:?}", map);
 
-    scores.insert(String::from("Blue"), 10);
-    scores.insert(String::from("Yellow"), 50);
+    let greeting_file_result =File::open("hello.txt");
+    let greeting_file = match greeting_file_result {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
 
-    let team_name = String::from("Blue");
-    // Optional skilled, get return a Option object
-    let score = scores.get(&team_name).copied().unwrap_or(0);
-
-    for (key, value) in &scores {
-        println!("{key}: {value}");
-    }
-
-    let field_name = String::from("Favorite color");
-    let field_value = String::from("Blue");
-
-    let mut map = HashMap::new();
-    map.insert(&field_name, &field_value);
-
-    // Overwrite and insert
-    // Option-like operation
-    scores.entry(String::from("Yellow")).or_insert(50);
-    scores.entry(String::from("Blue")).or_insert(50);
-
-    println!("{:?}", scores);
-
-    let text = "hello world wonderful world";
-
-    let mut map = HashMap::new();
-
-    for word in text.split_whitespace() {
-        let count = map.entry(word).or_insert(0);
-        *count += 1;
-    }
-
-    println!("{:?}", map);
+    let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problem creating the file: {:?}", error);
+            })
+        } else {
+            panic!("Problem opening the file: {:?}", error);
+        }
+    });
 }
