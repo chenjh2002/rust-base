@@ -1,4 +1,4 @@
-// use std::collections::HashMap;
+use std::collections::HashMap;
 use crate::garden::vegetables::Asparagus;
 // use rand::Rng;
 // use std::{self, cmp::Ordering, io};
@@ -59,54 +59,91 @@ fn main() {
     // ];
 
     // String
-    let data = "initial contents";
+    // let data = "initial contents";
+    //
+    // let s = data.to_string();
+    //
+    // // the method also works on a literal directly:
+    // let s = "initial contents".to_string();
+    //
+    // let s = String::from("initial contents");
+    //
+    // // Update string
+    // let mut s1 = String::from("foo");
+    // let s2 = "bar"; // s2 is &str
+    // s1.push_str(s2);
+    // println!("s2 is {s2}"); // s2 is bar
+    //
+    // let s1 = String::from("Hello, ");
+    // let mut s2 = String::from("world!");
+    // // note s1 has been moved here and can no longer be used
+    // // s2 here is a deep-copy
+    // let s3 = s1 + &s2;
+    // println!("{s2}"); // correct s2 is still valid.
+    // s2.push_str("...");
+    // println!("{s2}"); // world!...
+    // println!("{s3}"); // not change world!...
+    //
+    // let s1 = String::from("tic");
+    // let s2 = String::from("tac");
+    // let s3 = String::from("toe");
+    //
+    // // format will not remove any ones ownership
+    // let s = format!("{s1}-{s2}-{s3}");
+    // println!("{s}");
+    // println!("{s1}"); // valid
+    //
+    // // Index of String:
+    // // Only allow reference
+    // // looked as bytes array
+    // // Only allow slice
+    // let s1 = String::from("hello");
+    // let h = &s1[0..1];
+    // println!("{h}");
+    //
+    // // Methods for Iterating Over Strings
+    // for c in "Зд".chars() {
+    //     println!("{c}");
+    // } // 3 д
+    //
+    // for b in "Зд".bytes() {
+    //     println!("{b}");
+    // } // 208 151 208 180
 
-    let s = data.to_string();
+    let mut scores = HashMap::new();
 
-    // the method also works on a literal directly:
-    let s = "initial contents".to_string();
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
 
-    let s = String::from("initial contents");
+    let team_name = String::from("Blue");
+    // Optional skilled, get return a Option object
+    let score = scores.get(&team_name).copied().unwrap_or(0);
 
-    // Update string
-    let mut s1 = String::from("foo");
-    let s2 = "bar"; // s2 is &str
-    s1.push_str(s2);
-    println!("s2 is {s2}"); // s2 is bar
+    for (key, value) in &scores {
+        println!("{key}: {value}");
+    }
 
-    let s1 = String::from("Hello, ");
-    let mut s2 = String::from("world!");
-    // note s1 has been moved here and can no longer be used
-    // s2 here is a deep-copy
-    let s3 = s1 + &s2;
-    println!("{s2}"); // correct s2 is still valid.
-    s2.push_str("...");
-    println!("{s2}"); // world!...
-    println!("{s3}"); // not change world!...
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
 
-    let s1 = String::from("tic");
-    let s2 = String::from("tac");
-    let s3 = String::from("toe");
+    let mut map = HashMap::new();
+    map.insert(&field_name, &field_value);
 
-    // format will not remove any ones ownership
-    let s = format!("{s1}-{s2}-{s3}");
-    println!("{s}");
-    println!("{s1}"); // valid
+    // Overwrite and insert
+    // Option-like operation
+    scores.entry(String::from("Yellow")).or_insert(50);
+    scores.entry(String::from("Blue")).or_insert(50);
 
-    // Index of String:
-    // Only allow reference
-    // looked as bytes array
-    // Only allow slice
-    let s1 = String::from("hello");
-    let h = &s1[0..1];
-    println!("{h}");
+    println!("{:?}", scores);
 
-    // Methods for Iterating Over Strings
-    for c in "Зд".chars() {
-        println!("{c}");
-    } // 3 д
+    let text = "hello world wonderful world";
 
-    for b in "Зд".bytes() {
-        println!("{b}");
-    } // 208 151 208 180
+    let mut map = HashMap::new();
+
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    println!("{:?}", map);
 }
